@@ -1,5 +1,5 @@
 # mavenjava**
-maven project
+maven project 1
 go to eclipse
 Create a Maven Project - > File - > New -> Maven Project!
 Select the quickstart archetype under org.apache.maven.archetypes and click on Next! select artifacts click on ok
