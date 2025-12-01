@@ -1,0 +1,681 @@
+I)Jenkins:
+pre requisites:
+1)localhost 8080---tomcat---user if and password
+2) plugins
+	email-notification
+3) tools and configuration
+	maven,git,jdk
+
+ngrok
+ngrok config add-authtoken 35dp8oMoSdBonOxkUaFp69NyKqc_3yXYawnGmFEXptXECQQmk
+ngrok.exe http 8081
+click on link
+in GitHub add webhook https://halle-revelatory-intellectively.ngrok-free.dev/  ---> https://halle-revelatory-intellectively.ngrok-free.dev/github-webhook/
+
+
+Questions:
+1)Two pipeline
+2)three pipeline
+3)buildtriggers ---webhook
+
+4)email-notification
+
+
+
+5)scripted pipeline
+pipline 
+write script 
+build now
+
+6)kubernetes---minikube
+pre requisites:
+1)docker desktop-running
+2)Docker image
+
+minikube start --driver=docker
+kubectl create deployment <name> --image=<image>
+kubectl get pods
+kubectl describe pod <pod>
+docker pull <image>
+minikube image load <image>
+kubectl rollout restart deployment/<name>
+kubectl expose deployment <name> --type=NodePort --port=80 --target-port=80
+minikube service <name>
+kubectl port-forward svc/<name> 8080:80
+kubectl scale deployment <name> --replicas=4
+kubectl get deployments
+kubectl get pods
+
+7)nagios:
+pre requisites:
+1)docker
+
+docker pull jasonrivers/nagios:latest
+docker run -d -p 6969:80 jasonrivers/nagios:latest
+username: nagiosadmin
+pwd: nagios
+click on hosts
+
+8)aws
+sudo su
+sudo apt-get update
+sudo apt-get install docker.io
+sudo docker --version
+sudo docker images
+sudo docker ps
+https://github.com/archanareddyse/mavenweb.git --- git clone http of maven application  
+cd mavenweb --- cd maven-web folder name
+sudo docker build -t img1 .
+sudo docker images
+sudo docker run -d -p 80:8080 img1
+https://3.238.171.121/ ---> http://3.238.171.121:80
+
+9)uml-use-case,class diagram,sequence dig,component diagram
+case-studies --- ors,lmg,hmg,book bankings,atm
+
+pipeline { 
+    agent any
+
+    tools { 
+        jdk 'JAVA_HOME'            // configured in Jenkins
+        maven 'MAVEN_HOME'         // configured in Jenkins
+    } 
+
+    environment {
+        MVN = "${tool 'MAVEN_HOME'}\\bin\\mvn"   // full maven path
+        REPO = "https://github.com/Varshith271105/mavenjava"
+        APP = "mavenjava"
+    }
+
+    stages { 
+
+        stage('Git Clone & Clean') { 
+            steps { 
+                echo "Cleaning old workspace..."
+                bat "rmdir /s /q %APP% 2>nul || exit 0"
+
+                echo "Cloning repo..."
+                bat "git clone %REPO%"
+            } 
+        } 
+
+        stage('Maven Clean') { 
+            steps { 
+                bat "%MVN% clean -f %APP%/pom.xml"
+            } 
+        } 
+
+        stage('Install') { 
+            steps { 
+                bat "%MVN% install -f %APP%/pom.xml"
+            } 
+        } 
+
+        stage('Test') { 
+            steps { 
+                bat "%MVN% test -f %APP%/pom.xml"
+            } 
+        } 
+
+        stage('Package') { 
+            steps { 
+                bat "%MVN% package -f %APP%/pom.xml"
+            }
+        }
+    }
+}
+[01-12-2025 10:29] Varshith CSE B: 🚀 Smart Assessment Hub Maven, Git & Docker Cheat Sheet
+
+=========================================================
+1. Maven Web Application Development
+=========================================================
+
+# Clone repository and fix POM.xml errors
+git clone https://github.com/savram674/Smart-Assessment-Hub.git
+cd Smart-Assessment-Hub
+mvn clean install  # Fix errors in POM.xml and build project
+
+# Add Servlet API dependency
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version>
+    <scope>provided</scope>
+</dependency>
+
+# Add MySQL Connector/J dependency
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.33</version>
+</dependency>
+
+# Package as WAR
+mvn clean package  # WAR created in target/Smart-Assessment-Hub.war
+
+# Deploy on Tomcat
+cp target/Smart-Assessment-Hub.war $TOMCAT_HOME/webapps/
+$TOMCAT_HOME/bin/startup.sh
+# Access in browser: http://localhost:8080/Smart-Assessment-Hub
+
+# Maven local repository path for dependencies
+~/.m2/repository/javax/servlet/javax.servlet-api/4.0.1/
+~/.m2/repository/mysql/mysql-connector-java/8.0.33/
+
+# Folder structure
+Smart-Assessment-Hub/
+├─ pom.xml
+├─ src/
+│  ├─ main/
+│  │  ├─ java/
+│  │  ├─ resources/
+│  │  └─ webapp/WEB-INF/web.xml
+│  └─ test/
+├─ target/Smart-Assessment-Hub.war
+
+=========================================================
+2. Git & GitHub Integration
+=========================================================
+
+# Configure Git
+git config --global user.name "Your Name"
+git config --global user.email "youremail@example.com"
+
+# Initialize repo and commit
+git init
+git add .
+git commit -m "Initial commit"
+
+# Commit example
+git add .
+git commit -m "Added automated grading module"
+
+# Check status
+git status
+
+# View commit history with author details
+git log --pretty=format:"%h - %an, %ad : %s"
+
+# Create & switch branch
+git checkout -b feedback-module
+
+# Merge branch & resolve conflicts
+git checkout main
+git merge feedback-module
+# Edit conflicting files, remove <<<<<<< markers, then
+git add .
+git commit -m "Resolved conflict and merged feedback-module"
+
+# Create patch file
+git format-patch -1 <commit-hash>
+git apply 0001-Commit-message.patch
+
+# Push branch to GitHub
+git checkout analytics-dashboard
+git push origin analytics-dashboard
+
+# Fork & pull request workflow
+# 1. Fork repo on GitHub
+# 2. Clone fork locally
+git clone https://github.com/yourusername/Spoon-Knife.git
+git checkout -b new-feature
+git add .
+git commit -m "Implemented new feature"
+git push origin new-feature
+# 3. Open Pull Request on GitHub
+
+# Check differences between local branch and remote main
+git fetch origin
+git diff origin/main
+
+=========================================================
+3. Docker for Smart Assessment Hub
+=========================================================
+
+# Check Docker version & images
+docker --version
+docker images
+
+# Pull and run hello-world
+docker pull hello-world
+docker run hello-world
+
+# Run Python image interactive
+docker run -it python:3.11 /bin/bash
+
+# Dockerfile for Smart Assessment Hub using Tomcat
+Dockerfile:
+FROM tomcat:10.1.44-jdk17
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY target/Smart-Assessment-Hub.war /usr/local/tomcat/webapps/Smart-Assessment-Hub.war
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
+
+# Build image & run container
+docker build -t smarthub-image .
+docker run -d --name smarthub-container -p 8080:8080 smarthub-image
+
+# List containers
+docker ps
+docker ps -a
+
+# Start & stop container
+docker stop smarthub-container
+docker start smarthub-container
+
+# Push image to Docker Hub
+docker login
+docker tag smarthub-image username/smarthub-image:latest
+docker push username/smarthub-image:latest
+
+# Inspect logs
+docker logs smarthub-container
+
+=========================================================
+4. Docker Compose with Tomcat & MySQL
+=========================================================
+
+docker-compose.yml:
+version: "3.9"
+services:
+  app:
+    image: username/smarthub-image:latest
+    container_name: smarthub-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql:8.0
+    container_name: smarthub-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: smarthub
+      MYSQL_USER: smmuser
+      MYSQL_PASSWORD: smmpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql_data:
+
+# Bring containers up & confirm
+docker compose up -d
+docker compose ps
+
+# Access Tomcat in browser
+http://localhost:8080/Smart-Assessment-Hub
+
+# Connect MySQL container & create table
+docker exec -it smarthub-db mysql -u smmuser -p
+# Enter password: smmpassword
+USE smarthub;
+CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), email VARCHAR(50), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+SELECT * FROM users;
+[01-12-2025 10:29] Varshith CSE B: 🚀 Maven, Git & Docker Cheat Sheet for Maven Java Project (MJP)
+
+=========================================================
+1. Maven Java Project Development
+=========================================================
+
+# Clone repository and build
+git clone https://github.com/savram674/MJP.git
+cd MJP
+mvn clean install
+
+# Add MySQL Connector dependency in pom.xml
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.33</version>
+</dependency>
+
+# Maven folder structure
+MJP/
+├─ pom.xml
+├─ src/
+│  ├─ main/java/
+│  ├─ main/resources/
+│  └─ test/java/
+│     └─ test/resources/
+└─ target/
+
+# Create executable JAR using maven-jar-plugin
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-jar-plugin</artifactId>
+  <version>3.3.0</version>
+  <configuration>
+    <archive>
+      <manifest>
+        <mainClass>com.example.MainClass</mainClass>
+      </manifest>
+    </archive>
+  </configuration>
+</plugin>
+
+# Run unit tests with Maven Surefire plugin
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-surefire-plugin</artifactId>
+  <version>3.0.0-M9</version>
+</plugin>
+
+# target/ folder after mvn clean install
+target/
+├─ classes/
+├─ test-classes/
+├─ MJP-1.0-SNAPSHOT.jar
+├─ surefire-reports/
+└─ maven-archiver/
+
+=========================================================
+2. Git & GitHub Integration
+=========================================================
+
+# Initialize Git & connect to remote
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/username/MJP.git
+git push -u origin main
+
+# Fix last commit message (before push)
+git commit --amend -m "Corrected commit message"
+
+# .gitignore to exclude target/
+target/
+*.class
+*.log
+
+# View commits compact
+git log --oneline
+
+# Stash changes to switch branches
+git stash save "Work in progress"
+git checkout other-branch
+git stash pop
+
+# Feature branch, add files, merge
+git checkout -b gaming
+git add Game.java Player.java
+git commit -m "Added gaming feature files"
+git checkout main
+git merge gaming
+
+# Resolve merge conflicts
+# Edit conflicting file -> remove <<<<<<< markers
+git add Game.java
+git commit -m "Resolved merge conflict"
+
+# View last commit changes
+git show HEAD
+
+# Git pull vs fetch
+git fetch origin    # download only
+git pull origin main  # download + merge
+
+# Unstage file without losing edits
+git reset Calculator.java
+
+# Modify last commit message
+git commit --amend -m "Updated last commit message"
+
+=========================================================
+3. Docker for Maven JAR
+=========================================================
+
+# Dockerfile for OpenJDK + JAR
+Dockerfile:
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY target/MJP-1.0-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
+
+# Build image & list images
+docker build -t mjp-app .
+docker images
+
+# Run container & see output
+docker run -d --name mjp-container -p 8080:8080 mjp-app
+docker logs mjp-container
+
+# Active & inactive containers
+docker ps       # running
+docker ps -a    # all
+
+# Stop & remove container
+docker stop mjp-container
+docker rm mjp-container
+
+# Pull Redis & run
+docker pull redis:7
+docker run -d --name my-redis -p 6379:6379 redis:7
+
+# Remove image
+docker rmi mjp-app
+docker images
+
+=========================================================
+4. Docker Compose for Maven Project + PostgreSQL
+=========================================================
+
+docker-compose.yml:
+version: "3.9"
+services:
+  app:
+    build: .
+    container_name: mjp-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:15
+    container_name: mjp-db
+    environment:
+      POSTGRES_USER: mjpuser
+      POSTGRES_PASSWORD: mjppassword
+      POSTGRES_DB: mjpdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
+
+# Bring services up & confirm
+docker compose up -d
+docker compose ps
+
+# View logs of app service
+docker compose logs app
+[01-12-2025 10:29] Varshith CSE B: 🚀 Software Engineering & DevOps Cheat Sheet
+
+=========================================================
+1. Software Requirement Specification (SRS)
+=========================================================
+Abstract (SMMA)
+- Lightweight social media web app (login, posts, like/comment, profile).
+- Scope: simple, scalable, secure, community-driven.
+
+Functional Requirements (5)
+1. User Authentication (login/register).
+2. Post feed (text/images).
+3. Like & Comment on posts.
+4. Profile management.
+5. View feed.
+
+Non-Functional Requirements (3)
+- Security (hash passwords, HTTPS).
+- Scalability (handle many users).
+- Usability (responsive UI).
+
+Users
+- Admin → manages system.
+- Registered User → posts, comments, profiles.
+- Guest → view limited content only.
+
+=========================================================
+2. Maven (Build Tool)
+=========================================================
+Lifecycle (important phases)
+- clean → removes old build (target/).
+- compile → compile Java code.
+- test → run tests.
+- package → build JAR/WAR.
+- install → install to local repo (~/.m2).
+- deploy → send to remote repo.
+
+JSTL Dependency
+<dependency>
+  <groupId>javax.servlet</groupId>
+  <artifactId>jstl</artifactId>
+  <version>1.2</version>
+</dependency>
+
+MongoDB Driver Dependency
+<dependency>
+  <groupId>org.mongodb</groupId>
+  <artifactId>mongodb-driver-sync</artifactId>
+  <version>5.1.0</version>
+</dependency>
+
+Build Directory
+<build>
+  <directory>build_output</directory>
+</build>
+
+Useful Commands
+- Build: mvn clean install
+- Dependency tree: mvn dependency:tree
+
+Deploy WAR to Tomcat
+cp target/SMMA.war $TOMCAT_HOME/webapps/
+Access: http://localhost:8080/SMMA
+
+=========================================================
+3. Git & GitHub
+=========================================================
+Basic Config
+git config --global user.name "Your Name"
+git config --global user.email "your@email.com"
+
+Staging & Undo
+git add file.jsp
+git reset file.jsp
+
+Commit
+git commit -m "Added feed.jsp for user posts"
+
+Logs & Details
+git log -p
+git show <commit_hash>
+
+Branching & Merging
+git checkout -b comment-feature
+git push origin comment-feature
+git checkout main
+git merge comment-feature
+
+Merge Conflict
+# Edit file → remove <<<<<<< markers
+git add file.jsp
+git commit -m "Resolved conflict"
+
+View Diffs
+git show HEAD
+git diff HEAD~1 HEAD
+
+Sync with Remote
+git fetch origin
+git pull origin main
+
+Undo & Fix
+git revert <commit_hash>
+git commit --amend -m "New msg"
+
+Compare Local vs Remote
+git fetch origin
+git diff HEAD origin/main
+
+Clone Project
+git clone https://github.com/savram674/SMMA.git
+
+=========================================================
+4. Docker
+=========================================================
+Dockerfile (Tomcat + WAR)
+FROM tomcat:10.1.44-jdk17
+COPY target/SMMA.war /usr/local/tomcat/webapps/
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
+
+Build & Run
+docker build -t smma-web .
+docker run -d -p 8080:8080 --name smma-container smma-web
+
+Inside Container
+docker exec -it smma-container bash
+ls /usr/local/tomcat/webapps/
+
+List
+docker images
+docker ps -a
+
+Ubuntu Example
+docker pull ubuntu:22.04
+docker run -it ubuntu:22.04 bash
+echo "Hello" > myfile.txt
+exit
+docker commit <container_id> ubuntu-with-file
+
+Pull & Tag
+docker pull nginx:latest
+docker tag nginx:latest my-nginx:v1
+
+=========================================================
+5. Docker Compose (Multi-container)
+=========================================================
+docker-compose.yml
+version: "3.9"
+services:
+  smma-web:
+    image: smma-web:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    restart: always
+
+  mongo:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+volumes:
+  mongo_data:
+
+Commands
+docker-compose up -d
+docker-compose ps
+
+Insert & Retrieve MongoDB Data
+docker exec -it smma-mongo mongosh
+use smma
+db.posts.insertOne({user:"Alice",content:"Hello Compose!",likes:0})
+db.posts.find()
+exit
