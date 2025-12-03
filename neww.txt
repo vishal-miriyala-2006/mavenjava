@@ -6,4 +6,17 @@ kubectl scale deployment mynginx --replicas=4
 kubectl port-forward svc/mynginx 8081:80
 kubectl delete deployment mynginx
                service mynginx
+
 minikube stop
+
+
+
+https://youtu.be/x0qrjHPuQEk?si=6Y63K284-2YnjlMo
+https://youtu.be/J0S23KgAXHI?si=g_rByGMWrQupBaTQ
+https://youtu.be/c7Bkw5dXOg8?si=METKU6Avzk02G6dK
+https://youtu.be/IcD3N5vesRw?si=BbuYerOb_9OuGg1z
+https://youtu.be/dUiT79z46Bc?si=nCkp1MvdXcEo7PqT
+https://youtu.be/YF_LO7gfIfc?si=sNkfS0S0a_r8g9VL
+https://youtu.be/5_lEf9CKTa8?si=Mz0hxeHjWKQvUVET
+https://youtu.be/EePgxgywTfs?si=gY72WcHdqztLFyB_
+https://youtu.be/GLZAyt3g2Dk?si=dwsIYAh4xVBlvJA7
